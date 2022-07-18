@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>com.cn.novaera</groupId>
-	<artifactId>cnprestador</artifactId>
+	<artifactId>cn-prestador</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>cnprestador</name>
+	<name>cn-prestador</name>
 	<description>cn prestador</description>
 	<properties>
 		<java.version>1.8</java.version>
