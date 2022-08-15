@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cn.novaera.cnprestador.dto.ConsultaDTO;
+import com.cn.novaera.cnprestador.dto.ConsultaPageDTO;
 import com.cn.novaera.cnprestador.feign.client.Cn_consultaFeign;
 
 @Service
@@ -68,5 +69,12 @@ public class ConsultaServiceClient {
 		}
 	}
 
+	public ConsultaPageDTO findExameBetweenIDPage(int page, int limit, int id, String start, String end) throws Exception {
+
+		LOG.info("Inicio chamada do microservico findconsultaBetween");
+		Optional<ConsultaPageDTO> obj = Optional.ofNullable(service.findBeneficiarioConsultaComIdDataSolicitacao_page(page, limit, id, start, end).getBody());
+		LOG.info("Fim findconsultaBetween");
+		return obj.orElseThrow(() -> new Exception());
+	}
 	
 }

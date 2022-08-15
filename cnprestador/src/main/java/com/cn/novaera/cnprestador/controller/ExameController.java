@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.novaera.cnprestador.dto.ExameDTO;
+import com.cn.novaera.cnprestador.dto.ExamePageDTO;
 import com.cn.novaera.cnprestador.service.ExameServiceClient;
 
 import io.swagger.annotations.Api;
@@ -55,5 +57,37 @@ public class ExameController {
 		return new  ResponseEntity<>(proxyExame.beneficiarioinsert(dto),HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value ="Consulta paginada com beneficiario e sem id all")
+	@GetMapping(value = "/exame-beneficiario-page/")
+	public ResponseEntity<?> findBeneficiarioExameComIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam int id,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception{
+		
+        LOG.info("exame paginada com beneficiario e seu id all");
+				
+		ExamePageDTO consult = proxyExame.findExameBetweenIDPage(page, limit, id, startdt, enddt);
+		LOG.info("fim exame paginada com beneficiario e seu id all");
+		return new ResponseEntity<>(consult,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value ="exame paginada com beneficiario e seu id all")
+	@GetMapping(value = "/exame-beneficiario-dt-page/")
+	public ResponseEntity<?> findBeneficiarioConsultaSemIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception{
+		
+        LOG.info("exame paginada com beneficiario e sem id all");
+				
+		ExamePageDTO consult = proxyExame.findAgendamentoBetweenSemIDPage(page,limit, startdt, enddt);
+		LOG.info("fim Consulta paginada com beneficiario e sem id all");
+		return new ResponseEntity<>(consult,HttpStatus.OK);
+	}
 	
 }

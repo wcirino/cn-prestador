@@ -1,12 +1,15 @@
 package com.cn.novaera.cnprestador.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cn.novaera.cnprestador.dto.ExameDTO;
+import com.cn.novaera.cnprestador.dto.ExamePageDTO;
 import com.cn.novaera.cnprestador.feign.client.Cn_exameFeign;
 
 @Service
@@ -14,7 +17,7 @@ public class ExameServiceClient {
 
 	@Autowired
 	private Cn_exameFeign service;
-	
+		
 	private static final Logger LOG = LoggerFactory.getLogger(ConsultaServiceClient.class);
 	
 	public ExameDTO findIdExame(int id) throws Exception {
@@ -71,6 +74,21 @@ public class ExameServiceClient {
 			throw new Exception("ocorreu um erro não esperado /n" + e.getMessage());
 		}
 	}
-
 	
+	public ExamePageDTO findExameBetweenIDPage(int page,int limit, int id, String start, String end) throws Exception{	
+		
+		LOG.info("Inicio chamada do microservico findconsultaBetween");
+		Optional<ExamePageDTO> obj = Optional.ofNullable(service.findBeneficiarioExameComIdDataSolicitacao_page(page, limit,id,start,end).getBody());
+		LOG.info("Fim findconsultaBetween");
+		return obj.orElseThrow(() -> new Exception());
+	}
+	
+	public ExamePageDTO findAgendamentoBetweenSemIDPage(int page, int limit, String start, String end)
+			throws Exception {
+
+		LOG.info("Inicio chamada do microservico findconsultaBetween");
+		Optional<ExamePageDTO> obj = Optional.ofNullable(service.findBeneficiarioConsultaSemIdDataSolicitacao_page(page,limit,start,end).getBody());
+		LOG.info("Fim findconsultaBetween");
+		return obj.orElseThrow(() -> new Exception());
+	}
 }

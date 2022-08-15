@@ -2,12 +2,15 @@
 package com.cn.novaera.cnprestador.service;
 
 import java.util.List;
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cn.novaera.cnprestador.dto.AgendamentoDTO;
+import com.cn.novaera.cnprestador.dto.AgendamentoPageDTO;
 import com.cn.novaera.cnprestador.feign.client.Cn_gendamentoExameConsultaFeignClient;
 
 
@@ -70,6 +73,23 @@ public class AgendamentoServiceClient {
 		} catch (Exception e) {
 			throw new Exception("ocorreu um erro não esperado /n" + e.getMessage());
 		}
+	}
+	
+	public AgendamentoPageDTO findAgendamentoBetweenIDPage(int page,int limit, int id, String start, String end) throws Exception{	
+		
+		LOG.info("Inicio chamada do microservico findconsultaBetween");
+		Optional<AgendamentoPageDTO> obj = Optional.ofNullable(service.findBeneficiarioAgendamentoComIdDataSolicitacao_page(page, limit,id,start,end).getBody());
+		LOG.info("Fim findconsultaBetween");
+		return obj.orElseThrow(() -> new Exception());
+	}
+	
+	public AgendamentoPageDTO findAgendamentoBetweenSemIDPage(int page, int limit, String start, String end)
+			throws Exception {
+
+		LOG.info("Inicio chamada do microservico findconsultaBetween");
+		Optional<AgendamentoPageDTO> obj = Optional.ofNullable(service.findBeneficiarioAgendamentoSemIdDataSolicitacao_page(page,limit,start,end).getBody());
+		LOG.info("Fim findconsultaBetween");
+		return obj.orElseThrow(() -> new Exception());
 	}
 
 }

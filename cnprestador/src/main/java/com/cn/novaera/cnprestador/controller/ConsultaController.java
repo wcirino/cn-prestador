@@ -1,6 +1,9 @@
 package com.cn.novaera.cnprestador.controller;
 
 import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.novaera.cnprestador.dto.ConsultaDTO;
+import com.cn.novaera.cnprestador.dto.ConsultaPageDTO;
 import com.cn.novaera.cnprestador.service.ConsultaServiceClient;
 
 import io.swagger.annotations.Api;
@@ -26,9 +30,13 @@ public class ConsultaController {
 	@Autowired
 	private ConsultaServiceClient proxyConsult;
 	
+	@Autowired
+	private static final Logger LOG = LoggerFactory.getLogger(ConsultaController.class); 
+	
 	@ApiOperation(value = "Busca todas as consultas")
 	@GetMapping(value = "/consulta-all")
 	public ResponseEntity<List<ConsultaDTO>> findAllConsultas() throws Exception{
+        LOG.info("Consulta ...");
 		List<ConsultaDTO> consult = proxyConsult.findAllConsulta(1);
 		return new ResponseEntity<>(consult,HttpStatus.OK);
 	}
@@ -63,5 +71,21 @@ public class ConsultaController {
 	@PostMapping(value = "/consulta")
 	public ResponseEntity<?> InsertBeneficiario(@RequestBody ConsultaDTO dto)throws Exception{
 		return new  ResponseEntity<>(proxyConsult.beneficiarioUpdate(dto),HttpStatus.CREATED);
+	}
+	
+	@ApiOperation(value ="Consulta paginada com beneficiario e seu id all")
+	@GetMapping(value = "/consulta-beneficiario-dt-page/")
+	public ResponseEntity<?> findBeneficiarioConsultaComIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam int id,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception{
+
+        LOG.info("Consulta paginada com beneficiario e seu id all");
+		ConsultaPageDTO consult = proxyConsult.findExameBetweenIDPage(page, limit, id, startdt, enddt);
+		LOG.info("fim Consulta paginada com beneficiario e seu id all");
+		return new ResponseEntity<>(consult,HttpStatus.OK);
 	}
 }

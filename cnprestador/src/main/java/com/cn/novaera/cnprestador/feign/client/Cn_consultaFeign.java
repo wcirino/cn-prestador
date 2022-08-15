@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cn.novaera.cnprestador.dto.ConsultaDTO;
+import com.cn.novaera.cnprestador.dto.ConsultaPageDTO;
 
 import io.swagger.annotations.ApiOperation;
 
@@ -41,5 +42,16 @@ public interface Cn_consultaFeign {
 	@ApiOperation(value = "alterar consulta")
 	@PutMapping(value = "/consulta")
 	public  ResponseEntity<ConsultaDTO> Updateconsulta(@RequestBody ConsultaDTO dto) throws Exception;
+	
+	@GetMapping(value = "/consulta-beneficiario-dt-page/")
+	public ResponseEntity<ConsultaPageDTO> findBeneficiarioConsultaComIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam int id,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception;
+	
+	
 	
 }

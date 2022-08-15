@@ -13,9 +13,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.novaera.cnprestador.dto.AgendamentoDTO;
+import com.cn.novaera.cnprestador.dto.AgendamentoPageDTO;
 import com.cn.novaera.cnprestador.service.AgendamentoServiceClient;
 
 import io.swagger.annotations.Api;
@@ -54,7 +56,6 @@ public class AgendamentoController {
 	}
 
 	@ApiOperation(value = "inserir agendamento")
-
 	@PostMapping(value = "/agendamento")
 	public ResponseEntity<?> InsertAgendamento(@RequestBody AgendamentoDTO dto) throws Exception {
 		LOG.info("Iniciando  controller agendamento Metodo: inseriragendamento");
@@ -69,5 +70,38 @@ public class AgendamentoController {
 	 * LOG.info("Iniciando  controller agendamento Metodo: Updateagendamento");
 	 * return new ResponseEntity<>(agendamentoProxy.(dto), HttpStatus.OK); }
 	 */
+	
+	@ApiOperation(value ="agendamento paginada com beneficiario e sem id all")
+	@GetMapping(value = "/agendamento-beneficiario-id-page/")
+	public ResponseEntity<?> findBeneficiarioAgendamentoComIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam int id,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception{
+		
+        LOG.info("Consulta paginada com beneficiario e seu id all");
+						
+		AgendamentoPageDTO agenda = agendamentoProxy.findAgendamentoBetweenIDPage(page, limit, id, startdt, enddt);
+		LOG.info("fim Consulta paginada com beneficiario e seu id all");
+		return new ResponseEntity<>(agenda,HttpStatus.OK);
+	}
+	
+	@ApiOperation(value ="agendamento paginada com beneficiario e seu id all")
+	@GetMapping(value = "/agendamento-beneficiario-dt-page/")
+	public ResponseEntity<?> findBeneficiarioAgendamentoSemIdDataSolicitacao_page(
+			@RequestParam(value = "page", defaultValue = "0") int page,
+			@RequestParam(value = "limit", defaultValue = "10") int limit,
+			@RequestParam String startdt,
+			@RequestParam String enddt
+	) throws Exception{
+		
+        LOG.info("Consulta paginada com beneficiario e sem id all");
+		
+		AgendamentoPageDTO agenda = agendamentoProxy.findAgendamentoBetweenSemIDPage(page, limit, startdt, enddt);
+		LOG.info("fim Consulta paginada com beneficiario e sem id all");
+		return new ResponseEntity<>(agenda,HttpStatus.OK);
+	}
 
 }
