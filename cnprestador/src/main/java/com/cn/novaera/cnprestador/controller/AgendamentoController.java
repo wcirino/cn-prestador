@@ -36,7 +36,6 @@ public class AgendamentoController {
 	private static final Logger LOG = LoggerFactory.getLogger(AgendamentoController.class);
 
 	@ApiOperation(value = "Busca todos agendamento")
-
 	@GetMapping(value = "/agendamento-all")
 	public ResponseEntity<?> findAllAgendamento() throws Exception {
 		LOG.info("Iniciando  controller agendamento Metodo: findAll_agendamento");
@@ -46,7 +45,6 @@ public class AgendamentoController {
 	}
 
 	@ApiOperation(value = "Busca agendamento por id")
-
 	@GetMapping(value = "/agendamento-id/{id}")
 	public ResponseEntity<?> findIDAgendamento(@PathVariable int id) throws Exception {
 		LOG.info("Iniciando  controller agendamento Metodo: findID ");

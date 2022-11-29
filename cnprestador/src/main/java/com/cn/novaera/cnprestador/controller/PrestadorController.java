@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cn.novaera.cnprestador.dto.Prestador;
+import com.cn.novaera.cnprestador.dto.userDTO;
 import com.cn.novaera.cnprestador.service.PrestadorService;
+import com.cn.novaera.cnprestador.service.UserService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -26,6 +28,9 @@ public class PrestadorController {
 
 	@Autowired
 	PrestadorService PrestProxy;
+	
+	@Autowired
+	UserService service;
 	
 	@ApiOperation(value = "Busca todos os prestadores")
 	@GetMapping(value = "/prestador-all")
@@ -47,6 +52,12 @@ public class PrestadorController {
 		return new  ResponseEntity<>(PrestProxy.InsertPrestador(dto),HttpStatus.CREATED);
 	}
 	
+	@ApiOperation(value = "inserir prestador user")
+	@PostMapping(value = "/prestador/user")
+	public ResponseEntity<?> InsertUserePrestador(@RequestBody userDTO dto)throws Exception{
+		return new  ResponseEntity<>(service.InsertUserPrestador(dto),HttpStatus.CREATED);
+	}
+	
 	@ApiOperation(value = "alterar prestador")
 	@PutMapping(value = "/prestador")
 	public  ResponseEntity<?> UpdatePrestador(@RequestBody Prestador dto) throws Exception{
@@ -59,4 +70,10 @@ public class PrestadorController {
 		return new ResponseEntity<>("teste ok",HttpStatus.OK);
 	}
 	
+	@ApiOperation(value = "Busca prestador por all user")
+	@GetMapping(value = "/prestador-user")
+	public ResponseEntity<?> findall() throws Exception{
+		List<userDTO> prest = service.findUserServiceALL();
+		return new ResponseEntity<>(prest,HttpStatus.OK);
+	}
 }

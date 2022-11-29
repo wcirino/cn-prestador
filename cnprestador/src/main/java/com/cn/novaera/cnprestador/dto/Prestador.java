@@ -24,9 +24,10 @@ public class Prestador {
 
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column(name = "id_prest")
 	private int idPrest;
 	
-	@Column(name = "codprest")
+	@Column(name = "nome")
 	private String nome;
 	
 	@Column(name = "cpf")
@@ -35,7 +36,7 @@ public class Prestador {
 	@Column(name = "sexo")
 	private int sexo;
 	
-	@Column(name = "dataNascimento")
+	@Column(name = "data_nascimento")
 	private Date dataNascimento;
 	
 	@Column(name = "endereco")
@@ -50,10 +51,10 @@ public class Prestador {
 	@Column(name = "cep")
 	private String cep;
 	
-	@Column(name = "statusPrest")
+	@Column(name = "status_prest")
 	private String statusPrest;
 	
-	@Column(name = "dataCadastro")
+	@Column(name = "data_cadastro")
 	private String dataCadastro;
 		
 }

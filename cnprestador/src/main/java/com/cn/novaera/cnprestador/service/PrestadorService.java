@@ -34,7 +34,7 @@ public class PrestadorService {
 			throw new Exception("O Prestador possui Id");
 		}
 	}
-	
+		
 	public Prestador UpdatePrestador(Prestador dto) throws Exception{
 		if(prestProxy.existsById(dto.getIdPrest())) {
 			Prestador obj = prestProxy.save(dto);
